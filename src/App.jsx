@@ -1,9 +1,7 @@
+import { Information } from "./components";
+
 function App() {
-  return (
-    <div className="App">
-      <h1>Assignment</h1>
-    </div>
-  );
+  return <Information />;
 }
 
 export default App;
