@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { DataTable } from "./DataTable";
 
-export const StyledTable = styled(DataTable)`
+export const StyledTable = styled(props => <DataTable {...props} />)`
   width: 100%;
   min-height: 100vh;
   text-align: center;
