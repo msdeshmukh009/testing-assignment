@@ -5,7 +5,7 @@ const PageButtons = ({ pageBtns, setUrl }) => {
       .slice(1, rel.split("=")[1].length - 1)
       .toUpperCase();
   };
-  console.log(pageBtns);
+
   return (
     <div>
       {pageBtns.map(btnIfo => {
