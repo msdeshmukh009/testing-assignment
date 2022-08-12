@@ -6,18 +6,39 @@ import { GlobalStyles } from "../../Global.styles";
 import axios from "axios";
 
 const Information = () => {
-  const [dataList, setDataList] = useState([]);
-  const [pageBtns, setPageBtns] = useState([]);
   const [url, setUrl] = useState("https://api.github.com/users/facebook/repos?per_page=10&page=1");
+  const [fetchData, setFetchData] = useState({
+    loading: false,
+    dataList: [],
+    pageBtns: [],
+    error: "",
+  });
 
   useEffect(() => {
     (async () => {
       try {
-        const { headers, data } = await axios.get(url);
-        setDataList(data);
-        setPageBtns(headers.link.split(","));
+        setFetchData(prevState => ({ ...prevState, loading: true }));
+
+        const { headers, data, status } = await axios.get(url);
+
+        if (status === 200) {
+          setFetchData(prevState => ({
+            ...prevState,
+            loading: false,
+            dataList: data,
+            pageBtns: headers.link.split(","),
+          }));
+        }
       } catch (err) {
-        console.log(new Date(err.response.headers["x-ratelimit-reset"] * 1000), "err", err);
+        setFetchData(prevState => ({
+          ...prevState,
+          loading: false,
+          dataList: [],
+          pageBtns: [],
+          error: `Limit exceeded: Try again after ${new Date(
+            err.response.headers["x-ratelimit-reset"] * 1000
+          )}`,
+        }));
       }
     })();
   }, [url]);
@@ -25,11 +46,18 @@ const Information = () => {
   return (
     <InformationContainer>
       <GlobalStyles />
+
       <h1>Github Repositories</h1>
 
-      <StyledTable dataList={dataList} />
+      {fetchData.error ? fetchData.error : null}
+      {fetchData.loading ? <p data-testid="loading">Loading...</p> : null}
 
-      <PageButtons pageBtns={pageBtns} setUrl={setUrl} />
+      {!fetchData.loading && (
+        <>
+          <StyledTable dataList={fetchData.dataList} />
+          <PageButtons pageBtns={fetchData.pageBtns} setUrl={setUrl} />
+        </>
+      )}
     </InformationContainer>
   );
 };
