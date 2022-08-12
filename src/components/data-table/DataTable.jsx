@@ -1,7 +1,13 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { filterData } from "../../utils";
+import { TableHeading, FilterBox, TableHeadRow, TableElement } from "./DataTable.styles";
 
-const DataTable = ({ dataList, filterState, setFilterState }) => {
+const DataTable = ({ dataList, className }) => {
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterState, setFilterState] = useState({
+    appliedLicenses: [],
+  });
+
   const handleLicenseCheckBox = lic => {
     if (filterState.appliedLicenses.includes(lic)) {
       setFilterState(filterState => ({
@@ -15,6 +21,7 @@ const DataTable = ({ dataList, filterState, setFilterState }) => {
       }));
     }
   };
+
   const uniqueLicense = [
     ...new Set(dataList.map(data => (data?.license ? data.license.name : null))),
   ].filter(lic => lic !== null);
@@ -24,53 +31,58 @@ const DataTable = ({ dataList, filterState, setFilterState }) => {
   }, [filterState, dataList]);
 
   return (
-    <div>
-      <div>
-        <h3>Filter Licenses</h3>
-        <ul>
-          {uniqueLicense.map(lic => (
-            <li key={lic}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filterState.appliedLicenses.includes(lic)}
-                  onChange={() => handleLicenseCheckBox(lic)}
-                />
-                {lic}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Stars</th>
-            <th>Forks</th>
-            <th>License</th>
-          </tr>
-        </thead>
+    <table className={className}>
+      <thead>
+        <TableHeadRow>
+          <TableHeading>Name</TableHeading>
+          <TableHeading>Stars</TableHeading>
+          <TableHeading>Forks</TableHeading>
+          <TableHeading>
+            License
+            <button onClick={() => setShowFilters(prevState => !prevState)}>
+              {showFilters ? "Hide" : "Show"}
+            </button>
+            {showFilters ? (
+              <FilterBox>
+                <h3>Filter Licenses</h3>
+                <ul>
+                  {uniqueLicense.map(lic => (
+                    <li key={lic}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={filterState.appliedLicenses.includes(lic)}
+                          onChange={() => handleLicenseCheckBox(lic)}
+                        />
+                        {lic}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </FilterBox>
+            ) : null}
+          </TableHeading>
+        </TableHeadRow>
+      </thead>
 
-        {filteredList?.map(repo => {
-          const { html_url, name, id, stargazers_count, forks_count } = repo;
-          return (
-            <tbody key={id}>
-              <tr>
-                <td>
-                  <a href={html_url} target="_blank" rel="noreferrer">
-                    {name}
-                  </a>
-                </td>
-                <td>{stargazers_count}</td>
-                <td>{forks_count}</td>
-                <td>{repo?.license?.name}</td>
-              </tr>
-            </tbody>
-          );
-        })}
-      </table>
-    </div>
+      {filteredList?.map(repo => {
+        const { html_url, name, id, stargazers_count, forks_count } = repo;
+        return (
+          <tbody key={id}>
+            <tr>
+              <TableElement>
+                <a href={html_url} target="_blank" rel="noreferrer">
+                  {name}
+                </a>
+              </TableElement>
+              <TableElement>{stargazers_count}</TableElement>
+              <TableElement>{forks_count}</TableElement>
+              <TableElement>{repo.license?.name ? repo.license.name : "-"}</TableElement>
+            </tr>
+          </tbody>
+        );
+      })}
+    </table>
   );
 };
 

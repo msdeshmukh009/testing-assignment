@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { DataTable } from "../data-table/DataTable";
+import { StyledTable } from "../data-table/DataTable.styles";
 import PageButtons from "../page-buttons/PageButtons";
+import { InformationContainer } from "./Information.style";
+import { GlobalStyles } from "../../Global.styles";
 import axios from "axios";
 
 const Information = () => {
   const [dataList, setDataList] = useState([]);
   const [pageBtns, setPageBtns] = useState([]);
   const [url, setUrl] = useState("https://api.github.com/users/facebook/repos?per_page=10&page=1");
-  const [filterState, setFilterState] = useState({
-    appliedLicenses: [],
-  });
 
   useEffect(() => {
     (async () => {
@@ -24,13 +23,14 @@ const Information = () => {
   }, [url]);
 
   return (
-    <main>
-      <h1>Github Repos</h1>
+    <InformationContainer>
+      <GlobalStyles />
+      <h1>Github Repositories</h1>
 
-      <DataTable dataList={dataList} filterState={filterState} setFilterState={setFilterState} />
+      <StyledTable dataList={dataList} />
 
       <PageButtons pageBtns={pageBtns} setUrl={setUrl} />
-    </main>
+    </InformationContainer>
   );
 };
 
