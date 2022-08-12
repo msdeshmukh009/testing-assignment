@@ -30,6 +30,28 @@ const DataTable = ({ dataList, className }) => {
     return filterData(filterState, dataList);
   }, [filterState, dataList]);
 
+  const Filters = () => {
+    return (
+      <FilterBox>
+        <h3>Filter Licenses</h3>
+        <ul>
+          {uniqueLicense.map(lic => (
+            <li key={lic}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={filterState.appliedLicenses.includes(lic)}
+                  onChange={() => handleLicenseCheckBox(lic)}
+                />
+                {lic}
+              </label>
+            </li>
+          ))}
+        </ul>
+      </FilterBox>
+    );
+  };
+
   return (
     <table className={className}>
       <thead>
@@ -42,34 +64,16 @@ const DataTable = ({ dataList, className }) => {
             <button onClick={() => setShowFilters(prevState => !prevState)}>
               {showFilters ? "Hide" : "Show"}
             </button>
-            {showFilters ? (
-              <FilterBox>
-                <h3>Filter Licenses</h3>
-                <ul>
-                  {uniqueLicense.map(lic => (
-                    <li key={lic}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={filterState.appliedLicenses.includes(lic)}
-                          onChange={() => handleLicenseCheckBox(lic)}
-                        />
-                        {lic}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </FilterBox>
-            ) : null}
+            {showFilters ? <Filters /> : null}
           </TableHeading>
         </TableHeadRow>
       </thead>
 
-      {filteredList?.map(repo => {
-        const { html_url, name, id, stargazers_count, forks_count } = repo;
-        return (
-          <tbody key={id}>
-            <tr>
+      <tbody>
+        {filteredList?.map(repo => {
+          const { html_url, name, id, stargazers_count, forks_count } = repo;
+          return (
+            <tr data-testid={`${name} - ${id}`} key={id}>
               <TableElement>
                 <a href={html_url} target="_blank" rel="noreferrer">
                   {name}
@@ -79,9 +83,9 @@ const DataTable = ({ dataList, className }) => {
               <TableElement>{forks_count}</TableElement>
               <TableElement>{repo.license?.name ? repo.license.name : "-"}</TableElement>
             </tr>
-          </tbody>
-        );
-      })}
+          );
+        })}
+      </tbody>
     </table>
   );
 };
