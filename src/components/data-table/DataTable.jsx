@@ -1,6 +1,13 @@
 import { useMemo, useState } from "react";
 import { filterData } from "../../utils";
-import { TableHeading, FilterBox, TableHeadRow, TableElement } from "./DataTable.styles";
+import {
+  TableHeading,
+  FilterBox,
+  TableHeadRow,
+  TableElement,
+  Button,
+  FilterContainer,
+} from "./DataTable.styles";
 
 const DataTable = ({ dataList, className }) => {
   const [showFilters, setShowFilters] = useState(false);
@@ -33,21 +40,18 @@ const DataTable = ({ dataList, className }) => {
   const Filters = () => {
     return (
       <FilterBox>
-        <h3>Filter Licenses</h3>
-        <ul>
+        <FilterContainer>
           {uniqueLicense.map(lic => (
-            <li key={lic}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={filterState.appliedLicenses.includes(lic)}
-                  onChange={() => handleLicenseCheckBox(lic)}
-                />
-                {lic}
-              </label>
-            </li>
+            <label key={lic}>
+              <input
+                type="checkbox"
+                checked={filterState.appliedLicenses.includes(lic)}
+                onChange={() => handleLicenseCheckBox(lic)}
+              />
+              {lic}
+            </label>
           ))}
-        </ul>
+        </FilterContainer>
       </FilterBox>
     );
   };
@@ -61,9 +65,9 @@ const DataTable = ({ dataList, className }) => {
           <TableHeading>Forks</TableHeading>
           <TableHeading>
             License
-            <button onClick={() => setShowFilters(prevState => !prevState)}>
-              {showFilters ? "Hide" : "Show"}
-            </button>
+            <Button onClick={() => setShowFilters(prevState => !prevState)}>
+              <i className="fas fa-filter"></i>
+            </Button>
             {showFilters ? <Filters /> : null}
           </TableHeading>
         </TableHeadRow>

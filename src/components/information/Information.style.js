@@ -5,4 +5,11 @@ export const InformationContainer = styled.main`
   min-height: 100vh;
   text-align: center;
   padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+export const Heading = styled.h1`
+  padding: 0;
 `;

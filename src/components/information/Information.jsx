@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyledTable } from "../data-table/DataTable.styles";
 import PageButtons from "../page-buttons/PageButtons";
-import { InformationContainer } from "./Information.style";
+import { InformationContainer, Heading } from "./Information.style";
 import { GlobalStyles } from "../../Global.styles";
 import axios from "axios";
 
@@ -47,7 +47,7 @@ const Information = () => {
     <InformationContainer>
       <GlobalStyles />
 
-      <h1>Github Repositories</h1>
+      <Heading>Github Repositories</Heading>
 
       {fetchData.error ? fetchData.error : null}
       {fetchData.loading ? <p data-testid="loading">Loading...</p> : null}
