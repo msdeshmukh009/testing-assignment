@@ -73,7 +73,7 @@ const DataTable = ({ dataList, className }) => {
         {filteredList?.map(repo => {
           const { html_url, name, id, stargazers_count, forks_count } = repo;
           return (
-            <tr data-testid={`${name} - ${id}`} key={id}>
+            <tr data-testid={`repo-${name}-${id}`} key={id}>
               <TableElement>
                 <a href={html_url} target="_blank" rel="noreferrer">
                   {name}

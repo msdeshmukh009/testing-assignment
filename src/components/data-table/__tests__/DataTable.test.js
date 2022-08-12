@@ -17,7 +17,7 @@ describe("DataTable", () => {
   test("should render table from props", () => {
     render(<DataTable dataList={dataList} />);
 
-    const tableRowElement = screen.getByTestId("docusaurus - 94911145");
+    const tableRowElement = screen.getByTestId("repo-docusaurus-94911145");
     expect(tableRowElement).toBeInTheDocument();
   });
 });
