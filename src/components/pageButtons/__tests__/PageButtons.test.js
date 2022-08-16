@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import PageButtons from "../PageButtons";
+import { PageButtons } from "../PageButtons";
 
 describe("PageButtons", () => {
   test("should buttons from the props", () => {

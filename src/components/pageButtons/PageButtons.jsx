@@ -26,4 +26,4 @@ const PageButtons = ({ pageBtns, setUrl }) => {
   );
 };
 
-export default PageButtons;
+export { PageButtons };

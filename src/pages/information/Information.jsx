@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyledTable } from "../data-table/DataTable.styles";
-import PageButtons from "../page-buttons/PageButtons";
+import { PageButtons, StyledTable } from "../../components";
 import { InformationContainer, Heading } from "./Information.style";
 import { GlobalStyles } from "../../Global.styles";
 import axios from "axios";

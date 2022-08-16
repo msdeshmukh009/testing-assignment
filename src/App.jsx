@@ -1,4 +1,4 @@
-import { Information } from "./components";
+import { Information } from "./pages";
 
 function App() {
   return <Information />;
