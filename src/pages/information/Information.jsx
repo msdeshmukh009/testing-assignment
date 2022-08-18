@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { PageButtons, StyledTable } from "../../components";
 import { InformationContainer, Heading } from "./Information.style";
 import { GlobalStyles } from "../../Global.styles";
+import { getRepositories } from "../../services";
 import axios from "axios";
 
 const Information = () => {
@@ -18,7 +19,7 @@ const Information = () => {
       try {
         setFetchData(prevState => ({ ...prevState, loading: true }));
 
-        const { headers, data, status } = await axios.get(url);
+        const { headers, data, status } = await getRepositories(url);
 
         if (status === 200) {
           setFetchData(prevState => ({

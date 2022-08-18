@@ -1,0 +1,1 @@
+export { getRepositories } from "./getRepositories";
